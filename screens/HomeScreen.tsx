@@ -11,12 +11,14 @@ import { useDataState } from '../contexts/DataContext';
 import { LineChart } from 'react-native-chart-kit';
 import { exportExcel } from '../utils/export';
 import { formatData } from '../utils/data';
+import { formatDate } from '../utils/datetime';
 
 export const HomeScreen = (): React.ReactElement => {
   const auth = useAuthState();
   const navigation = useNavigation();
   const settings = useSettingState();
   const dataState = useDataState();
+  const date = formatDate()
 
   const { currentData, selectedData, averageValue, messageWarning } = dataState;
 
@@ -35,7 +37,7 @@ export const HomeScreen = (): React.ReactElement => {
         />
         <ScrollView style={{ backgroundColor: '#fff' }}>
           <Layout style={styles.container}>
-            <Text style={styles.date}>Nov 03, 2018</Text>
+            <Text style={styles.date}>{date}</Text>
             {auth.currentUser?.displayName && (
               <Text style={styles.name}>{auth.currentUser?.displayName}</Text>
             )}
