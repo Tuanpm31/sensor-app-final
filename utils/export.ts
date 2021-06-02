@@ -17,15 +17,25 @@ var data = [{
 }
 ];
 
-export async function exportExcel() {
-  var ws = XLSX.utils.json_to_sheet(data);
+interface ExportDataInterface {
+  time: string,
+  value: number
+}
+
+export async function exportExcel(dataTrack: Array<number>, times: Array<string>) {
+  let dataToExport: Array<ExportDataInterface> = []
+  for (let index = 0; index < dataTrack.length; index++) {
+    let temp: ExportDataInterface = { time: times[index], value: dataTrack[index] }
+    dataToExport.push(temp)
+  }
+  var ws = XLSX.utils.json_to_sheet(dataToExport);
   var wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Cities");
+  XLSX.utils.book_append_sheet(wb, ws, "tracking");
   const wbout = XLSX.write(wb, {
     type: 'base64',
     bookType: "xlsx"
   });
-  const uri = FileSystem.cacheDirectory + 'cities.xlsx';
+  const uri = FileSystem.cacheDirectory + 'tracking.xlsx';
   console.log(`Writing to ${JSON.stringify(uri)} with text: ${wbout}`);
   await FileSystem.writeAsStringAsync(uri, wbout, {
     encoding: FileSystem.EncodingType.Base64

@@ -14,6 +14,12 @@ export const DustSetting = (): React.ReactElement => {
     <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
   )
 
+  const saveDust = () => {
+    settings.dustWarning && settings.setDustWarning(settings.dustWarning);
+    window.alert("Cài đặt thành công");
+    Keyboard.dismiss();
+  }
+
   return (
     <React.Fragment>
       <TopNavigation
@@ -35,7 +41,7 @@ export const DustSetting = (): React.ReactElement => {
         </Layout>
 
         <Layout style={{ marginTop: 16 }}>
-          <Button onPress={() => { settings.dustWarning && settings.setDustWarning(settings.dustWarning) }}>Lưu</Button>
+          <Button onPress={() => { saveDust() }}>Lưu</Button>
         </Layout>
 
       </Layout>

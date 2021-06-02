@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import * as eva from '@eva-design/eva';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
@@ -18,7 +19,9 @@ export default function App() {
           <IconRegistry icons={[EvaIconsPack]} />
           <ApplicationProvider {...eva} theme={eva.light}>
             <StatusBar />
-            <AppNavigator />
+            <RootSiblingParent>
+              <AppNavigator />
+            </RootSiblingParent>
           </ApplicationProvider>
         </DataProvider>
       </SettingsProvider>

@@ -38,8 +38,9 @@ export const HomeScreen = (): React.ReactElement => {
         <ScrollView style={{ backgroundColor: '#fff' }}>
           <Layout style={styles.container}>
             <Text style={styles.date}>{date}</Text>
+            <Text style={styles.name}>Địa điểm: {settings.location}</Text>
             {auth.currentUser?.displayName && (
-              <Text style={styles.name}>{auth.currentUser?.displayName}</Text>
+              <Text style={styles.name}>Người dùng: {auth.currentUser?.displayName}</Text>
             )}
           </Layout>
           <Layout style={styles.cardContainer}>
@@ -109,7 +110,7 @@ export const HomeScreen = (): React.ReactElement => {
           />
           {
             Platform.OS !== "web" && (
-              <Button onPress={() => exportExcel()} style={{ marginHorizontal: 16, backgroundColor: "#bababa", borderWidth: 0, marginBottom: 16 }}>Xuất dữ liệu</Button>
+              <Button onPress={() => exportExcel(dataState.currentTrackingData, dataState.currentTrackingTime)} style={{ marginHorizontal: 16, backgroundColor: "#bababa", borderWidth: 0, marginBottom: 16 }}>Xuất dữ liệu</Button>
             )
           }
 

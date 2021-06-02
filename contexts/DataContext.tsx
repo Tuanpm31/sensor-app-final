@@ -8,8 +8,8 @@ export interface DataContextState {
   currentData: string,
   currentTrackingData: Array<number>,
   averageValue: string,
-  messageWarning?: string
-
+  messageWarning?: string,
+  currentTrackingTime: Array<string>,
 }
 
 export interface DataProviderProps {
@@ -30,6 +30,7 @@ export const DataProvider: React.FC<DataProviderProps> = ({
   const [currentTrackingData, setCurrentTrackingData] = useState<Array<number>>([]);
   const [averageValue, setAverageValue] = useState<string>("");
   const [messageWarning, setMessageWarning] = useState<string | undefined>();
+  const [currentTrackingTime, setCurrentTrackingTime] = useState<Array<string>>([]);
 
   // function formatForMessageWarning(type: string) {
   //   switch (type) {
@@ -85,23 +86,28 @@ export const DataProvider: React.FC<DataProviderProps> = ({
         setMessageWarning(undefined)
         break;
     }
-  }, [currentData, selectedData])
+  }, [currentData, selectedData, settings.dustWarning, settings.humidityWarning, settings.temperatureWarning])
 
   useEffect(() => {
     const ref = database.ref("locations").child(location).child('tracking').child(selectedData);
     const listener = ref.on('value', (snapshot) => {
       let temp: Array<number> = []
+      let tempTime: Array<string> = []
       Object.keys(snapshot.val()).forEach((k) => {
         let entry = snapshot.val()[k];
         temp.push(Number(entry.value));
+        tempTime.push(String(entry.time));
       });
       if (temp.length <= 6) {
         setCurrentTrackingData(temp);
+        setCurrentTrackingTime(tempTime);
       } else {
         temp = temp.slice(temp.length - 6);
+        tempTime = tempTime.slice(tempTime.length - 6);
         setCurrentTrackingData(temp);
+        setCurrentTrackingTime(tempTime);
       }
-      const average: number = temp.reduce((a, b) => a + b, 0) / temp.length;
+      const average: string = (temp.reduce((a, b) => a + b, 0) / temp.length).toFixed(2);
       setAverageValue(String(average));
     })
 
@@ -119,7 +125,8 @@ export const DataProvider: React.FC<DataProviderProps> = ({
         currentData,
         currentTrackingData,
         averageValue,
-        messageWarning
+        messageWarning,
+        currentTrackingTime
       }}>
       {children}
     </DataContext.Provider>

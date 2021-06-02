@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core';
 import { Button, Divider, Input, Layout, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import React, { useState } from 'react';
-import { StyleSheet, Keyboard } from 'react-native';
+import { StyleSheet, Keyboard, Platform } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BackIcon } from '../../components/Icons';
@@ -15,6 +15,12 @@ export const TemperatureSetting = (): React.ReactElement => {
   const renderBackAction = () => (
     <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
   )
+
+  const saveTemperature = () => {
+    settings.temperatureWarning && settings.setTemperatureWarning(settings.temperatureWarning);
+    window.alert("Cài đặt thành công");
+    Keyboard.dismiss();
+  }
 
   return (
     <React.Fragment>
@@ -37,7 +43,7 @@ export const TemperatureSetting = (): React.ReactElement => {
         </Layout>
 
         <Layout style={{ paddingTop: 16 }}>
-          <Button onPress={() => { settings.temperatureWarning && settings.setTemperatureWarning(settings.temperatureWarning) }}>Lưu</Button>
+          <Button onPress={() => { saveTemperature() }}>Lưu</Button>
         </Layout>
 
       </Layout>

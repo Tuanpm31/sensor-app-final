@@ -14,6 +14,12 @@ export const HumiditySetting = (): React.ReactElement => {
     <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
   )
 
+  const saveHumidity = () => {
+    settings.humidityWarning && settings.setDustWarning(settings.humidityWarning);
+    window.alert("Cài đặt thành công");
+    Keyboard.dismiss();
+  }
+
   return (
     <React.Fragment>
       <TopNavigation
@@ -35,7 +41,7 @@ export const HumiditySetting = (): React.ReactElement => {
         </Layout>
 
         <Layout style={{ marginTop: 16 }}>
-          <Button onPress={() => { settings.humidityWarning && settings.setDustWarning(settings.humidityWarning) }}>Lưu</Button>
+          <Button onPress={() => { saveHumidity() }}>Lưu</Button>
         </Layout>
 
       </Layout>
